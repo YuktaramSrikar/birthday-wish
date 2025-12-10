@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Birthday Surprise ✨🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: radial-gradient(circle at top left, #ff9aeb, #ff758c, #ffb199);
+            color: #333;
+            overflow-x: hidden;
+        }
+        .bubble {
+            position: fixed;
+            border-radius: 50%;
+            opacity: 0.18;
+            filter: blur(1px);
+            animation: float 18s infinite alternate ease-in-out;
+            z-index: 0;
+        }
+        .bubble:nth-child(1) {
+            width: 220px;
+            height: 220px;
+            background: #ffffff;
+            top: -60px;
+            left: -40px;
+        }
+        .bubble:nth-child(2) {
+            width: 260px;
+            height: 260px;
+            background: #ffe0ff;
+            bottom: -80px;
+            right: -40px;
+            animation-duration: 20s;
+        }
+        @keyframes float {
+            from { transform: translateY(0px); }
+            to   { transform: translateY(40px); }
+        }
+        .card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 520px;
+            padding: 28px 22px 32px;
+            border-radius: 28px;
+            background: rgba(255, 255, 255, 0.85);
+            box-shadow:
+                0 18px 40px rgba(0, 0, 0, 0.26),
+                0 0 0 1px rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(14px);
+            text-align: center;
+        }
+        .card-header {
+            margin-bottom: 20px;
+        }
+        .title-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 14px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: rgba(255, 255, 255, 0.85);
+            color: #ff4b6f;
+            font-weight: 600;
+        }
+        .card h1 {
+            margin: 12px 0 4px;
+            font-size: 2.1rem;
+            font-weight: 700;
+            color: #ff3366;
+            text-shadow: 0 2px 6px rgba(255, 0, 102, 0.24);
+        }
+        .card h1 span {
+            font-size: 2.4rem;
+        }
+        .card-subtitle {
+            margin: 0;
+            font-size: 0.98rem;
+            color: #555;
+        }
+        .envelope-wrapper {
+            margin: 24px 0 10px;
+        }
+        .envelope-label {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 10px;
+        }
+        .envelope-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 120px;
+            height: 90px;
+            border-radius: 22px;
+            border: none;
+            cursor: pointer;
+            overflow: hidden;
+            background: linear-gradient(145deg, #ffe5f0, #ffc4de);
+            box-shadow:
+                0 10px 18px rgba(255, 0, 89, 0.35),
+                0 0 0 1px rgba(255, 255, 255, 0.9);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .envelope-btn::before {
+            content: "";
+            position: absolute;
+            width: 130%;
+            height: 130%;
+            top: -60%;
+            left: -15%;
+            background: linear-gradient(to bottom right, rgba(255, 255, 255, 0.7), transparent);
+            opacity: 0.7;
+            transform: rotate(-12deg);
+        }
+        .envelope-icon {
+            position: relative;
+            z-index: 1;
+            font-size: 2.4rem;
+            animation: bounce 1.7s infinite ease-in-out;
+        }
+        .envelope-btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow:
+                0 16px 26px rgba(255, 0, 89, 0.45),
+                0 0 0 1px rgba(255, 255, 255, 0.95);
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-6px); }
+        }
+        #wishBox {
+            margin-top: 22px;
+            padding: 20px 16px 18px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #fff0f5, #ffe9fb);
+            box-shadow:
+                0 8px 18px rgba(255, 80, 140, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.7);
+            text-align: center;
+            transform-origin: top center;
+            transform: scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        #wishBox.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+        #wishBox p.main-wish {
+            margin: 4px 0 8px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #ff3b6e;
+        }
+        #wishBox p.sub-wish {
+            margin: 0 0 16px;
+            font-size: 0.95rem;
+            color: #555;
+        }
+        .name-highlight {
+            font-weight: 700;
+            color: #ff2f71;
+        }
+        .divider {
+            width: 60%;
+            height: 1px;
+            margin: 12px auto 18px;
+            background: linear-gradient(to right, transparent, #ffb7cc, transparent);
+        }
+        .quote-title {
+            font-size: 0.94rem;
+            margin-bottom: 10px;
+            color: #444;
+        }
+        .quote-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .quote-btn {
+            border: none;
+            border-radius: 999px;
+            padding: 7px 14px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            background: linear-gradient(135deg, #ff6b8b, #ff9a9e);
+            color: #fff;
+            font-weight: 500;
+            box-shadow: 0 6px 14px rgba(255, 0, 76, 0.35);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+            white-space: nowrap;
+        }
+        .quote-btn span {
+            margin-left: 4px;
+        }
+        .quote-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 18px rgba(255, 0, 76, 0.4);
+        }
+        #quoteBox {
+            margin-top: 6px;
+            min-height: 32px;
+            font-size: 0.98rem;
+            padding: 8px 12px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #444;
+            display: inline-block;
+            max-width: 100%;
+        }
+        #quoteBox.empty {
+            background: transparent;
+            min-height: 0;
+            padding: 0;
+        }
+        .footer-note {
+            margin-top: 18px;
+            font-size: 0.78rem;
+            color: #666;
+            opacity: 0.85;
+        }
+        .music-note {
+            font-size: 0.9rem;
+            margin-top: 4px;
+            color: #aa4b79;
+        }
+        @media (max-width: 480px) {
+            .card {
+                padding: 22px 18px 26px;
+            }
+            .card h1 {
+                font-size: 1.8rem;
+            }
+            .envelope-btn {
+                width: 105px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="card">
+        <div class="card-header">
+            <div class="title-pill">
+                <span>🎂</span>
+                <span>Birthday Surprise</span>
+            </div>
+            <h1><span>🎉</span> Happy Birthday, <span class="name-highlight">D</span>! <span>✨</span></h1>
+            <p class="card-subtitle">
+                A tiny envelope with a big smile just for you… open it! 💌
+            </p>
+        </div>
+        <div class="envelope-wrapper">
+            <div class="envelope-label">Tap the envelope to reveal your special wish:</div>
+            <button class="envelope-btn" onclick="showWish()">
+                <div class="envelope-icon">✉️</div>
+            </button>
+        </div>
+        <div id="wishBox">
+            <p class="main-wish">
+                Dear <span class="name-highlight">Friend</span>, may your day be full of love, laughter, and all your favorite things! 💖
+            </p>
+            <p class="sub-wish">
+                May this year bring you closer to your dreams, surrounded by people who truly cherish you. 🌈
+            </p>
+            <div class="divider"></div>
+            <div class="quote-title">
+                Tap a button to get a little extra love & positivity:
+            </div>
+            <div class="quote-buttons">
+                <button class="quote-btn" onclick="showQuote('“You’re not just special today — you’re special every single day. 🤍✨”')">
+                    Quote 1 <span>💫</span>
+                </button>
+                <button class="quote-btn" onclick="showQuote('“You deserve all the love this world can give and even more. 💕🌍”')">
+                    Quote 2 <span>😊</span>
+                </button>
+                <button class="quote-btn" onclick="showQuote('“May your day be filled with people who love you deeply — just the way you deserve. 💝✨”')">
+                    Quote 3 <span>💛</span>
+                </button>
+                <button class="quote-btn" onclick="showQuote('“You’re one of the rare souls who make everything around them better. Keep shining. ✨❤️”')">
+                    Quote 4 <span>✨</span>
+                </button>
+                <button class="quote-btn" onclick="showQuote('“Thank you for being the kind of friend who stays, cares, and understands. You mean so much. 💖🤗”')">
+                    Quote 5 <span>🎮</span>
+                </button>
+            </div>
+            <div id="quoteBox" class="empty"></div>
+        </div>
+        <div class="footer-note">
+            Made with lots of love, sparkles, and a sprinkle of magic. ✨
+        </div>
+    </div>
+    <script>
+        function showWish() {
+            const box = document.getElementById("wishBox");
+            const audio = document.getElementById("bgMusic");
+            if (!box.classList.contains("visible")) {
+                box.classList.add("visible");
+                box.scrollIntoView({ behavior: "smooth", block: "center" });
+                if (audio) {
+                    audio.play().catch(() => {
+                        console.log("Autoplay blocked until further interaction.");
+                    });
+                }
+            }
+        }
+        function showQuote(text) {
+            const quoteBox = document.getElementById("quoteBox");
+            quoteBox.innerHTML = text;
+            quoteBox.classList.remove("empty");
+        }
+    </script>
+</body>
+</html>
